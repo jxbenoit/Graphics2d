@@ -44,13 +44,44 @@ int main( int argc, char* args[] )
             cout << "Failed to load media!" << endl;
         else {
             //Apply the image
-            SDL_BlitSurface( gHelloWorld, NULL, gScreenSurface, NULL );
+//            SDL_BlitSurface( gHelloWorld, NULL, gScreenSurface, NULL );
 			
             //Update the surface
+            SDL_Rect rect = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+            if (SDL_FillRect(gScreenSurface, &rect, 0xff008899) != 0) {
+              cerr << "main: " << SDL_GetError() << endl;
+              return -1;
+            }
+
+
             SDL_UpdateWindowSurface( gWindow );
 
             //Wait two seconds
-            SDL_Delay( 10000 );
+//            SDL_Delay( 10000 );
+                        //Main loop flag
+
+            bool quit = false;
+
+            //Event handler
+            SDL_Event e;
+
+            //While application is running
+            while( !quit ) {
+                //Handle events on queue
+                while( SDL_PollEvent( &e ) != 0 )
+                {
+                    //User requests quit
+                    if( e.type == SDL_QUIT )
+                    {
+                        quit = true;
+                    }
+                }
+                //Apply the image
+  //              SDL_BlitSurface( gXOut, NULL, gScreenSurface, NULL );
+            
+                //Update the surface
+                SDL_UpdateWindowSurface( gWindow );
+            }
         }
     }
 
